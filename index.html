@@ -1,0 +1,362 @@
+<!DOCTYPE html><!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praticar Inglês Completo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { max-width: 800px; margin: 0 auto; padding: 15px; background: #f0f4f8; }
+        h1 { color: #2c3e50; text-align: center; margin-bottom: 15px; }
+        
+        .menu { display: flex; gap: 7px; flex-wrap: wrap; justify-content: center; margin-bottom: 15px; }
+        button { padding: 9px 11px; border: none; border-radius: 6px; background: #3498db; color: white; font-size: 14px; cursor: pointer; }
+        button:hover { background: #2980b9; }
+        button.ativo { background: #27ae60; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        
+        .caixa { background: white; padding: 16px; border-radius: 8px; margin-bottom: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+        .etiqueta { display: inline-block; background: #e3f2fd; color: #1565c0; padding: 5px 12px; border-radius: 12px; font-size: 14px; margin-bottom: 10px; }
+        .frase-pt { font-size: 16px; font-weight: bold; margin: 10px 0; color: #2c3e50; padding: 8px; background: #f8f9fa; border-radius: 5px; }
+        .opcao { padding: 11px; margin: 7px 0; background: #eaf2f8; border-radius: 5px; cursor: pointer; font-size: 15px; }
+        .opcao:hover { background: #d4e6f1; }
+        .explicacao { margin-top: 12px; padding: 10px; background: #fef9e7; border-radius: 5px; line-height: 1.6; }
+        .pergunta { margin-top: 10px; padding: 10px; background: #e8f8f5; border-radius: 5px; font-weight: bold; color: #27ae60; }
+        .dica { margin-top: 8px; color: #7f8c8d; font-size: 13px; }
+        .exercicio { margin-top: 12px; padding: 12px; background: #fff2e6; border-radius: 6px; border-left: 4px solid #ff9800; }
+        .resposta-exercicio { margin-top: 8px; padding: 8px; background: #e8f5e9; border-radius: 4px; display: none; }
+        .botao-mostrar { background: #ff9800; margin-top: 8px; font-size: 14px; padding: 6px 12px; }
+        .lista-palavras { columns: 2; margin-top: 10px; }
+        .item-palavra { padding: 5px 0; border-bottom: 1px solid #eee; cursor: pointer; }
+        .item-palavra:hover { color: #3498db; }
+    </style>
+</head>
+<body>
+
+<h1>📚 Pratique Inglês Completo</h1>
+
+<div class="menu">
+    <button onclick="escolherTema('compras')">🛍️ Compras</button>
+    <button onclick="escolherTema('restaurante')">🍽️ Restaurante</button>
+    <button onclick="escolherTema('viagem')">✈️ Viagem</button>
+    <button onclick="escolherTema('saude')">🏥 Saúde</button>
+    <button onclick="escolherTema('corpo')">🫀 Corpo</button>
+    <button onclick="escolherTema('numeros')">🔢 Números</button>
+    <button onclick="escolherTema('emprego')">💼 Emprego</button>
+    <button onclick="escolherTema('biblia')">📖 Bíblia</button>
+    <button onclick="escolherTema('conversa')">🗣️ Conversa</button>
+    <button onclick="escolherTema('exercicios')">✏️ Exercícios</button>
+</div>
+
+<div class="caixa">
+    <span class="etiqueta" id="tema-atual">Tema: Compras</span>
+    <p style="margin: 10px 0;">Escolha uma frase ou palavra abaixo:</p>
+    <div id="lista-conteudo"></div>
+</div>
+
+<div class="caixa">
+    <h3>📝 Explicação e Prática</h3>
+    <div id="resultado">Clique em algo acima para ver a resposta e ouvir a pronúncia!</div>
+</div>
+
+<script>
+const banco = {
+compras: {
+titulo: "Compras",
+itens: [
+{ pt: "Quero ver calça tamanho 38",
+opcoes: ["👉 I am looking for pants, size 38.",
+         "👉 I would like pants in size 38, please.",
+         "👉 Do you have pants in size 38?"],
+dif: "• Opção 1: direta e comum; • Opção 2: educada e cortês; • Opção 3: pergunta se existe.",
+pratica: "Quanto custa? Responda: How much is it?" },
+{ pt: "Quanto custa isso?",
+opcoes: ["👉 How much does this cost?",
+         "👉 How much is this?",
+         "👉 What is the price?"],
+dif: "• Opção 1: mais completa; • Opção 2: mais usada; • Opção 3: curta e direta.",
+pratica: "Aceita cartão? Responda: Do you accept credit card?" },
+{ pt: "Está muito caro, tem desconto?",
+opcoes: ["👉 It is too expensive. Do you have a discount?",
+         "👉 The price is high. Can you give me a discount?",
+         "👉 It costs too much. Any discount please?"],
+dif: "• Opção 1: direta e educada; • Opção 2: mais suave; • Opção 3: curta e simples.",
+pratica: "Obrigado! Responda: Thank you very much!" }
+]},
+
+restaurante: {
+titulo: "Restaurante",
+itens: [
+{ pt: "Quero suco de laranja e arroz com frango",
+opcoes: ["👉 I would like orange juice and rice with chicken.",
+         "👉 Can I have orange juice and rice with chicken, please?",
+         "👉 I want orange juice and rice with chicken."],
+dif: "• Opção 1: educada e padrão; • Opção 2: muito cortês; • Opção 3: direta.",
+pratica: "Quer mais algo? Responda: No thank you, that is all." },
+{ pt: "A conta por favor",
+opcoes: ["👉 The bill, please.",
+         "👉 Can I have the bill, please?",
+         "👉 Check, please."],
+dif: "• Opção 1: forma padrão; • Opção 2: mais educada; • Opção 3: muito comum nos EUA.",
+pratica: "Obrigado! Responda: Thank you very much!" },
+{ pt: "Está delicioso! Obrigado!",
+opcoes: ["👉 It is delicious! Thank you!",
+         "👉 This was wonderful! Thank you so much!",
+         "👉 Very tasty! Thanks!"],
+dif: "• Opção 1: simples e sincera; • Opção 2: calorosa; • Opção 3: curta e amigável.",
+pratica: "Até a próxima! Responda: See you next time!" }
+]},
+
+viagem: {
+titulo: "Viagem",
+itens: [
+{ pt: "Onde fica o banheiro por favor?",
+opcoes: ["👉 Where is the bathroom, please?",
+         "👉 Excuse me, where is the restroom?",
+         "👉 Could you tell me where the toilet is?"],
+dif: "• Opção 1: simples e universal; • Opção 2: com licença; • Opção 3: mais formal.",
+pratica: "Obrigado! Responda: Thank you very much!" },
+{ pt: "Quanto tempo chega lá?",
+opcoes: ["👉 How long does it take to get there?",
+         "👉 How much time until we arrive?",
+         "👉 How long to get there?"],
+dif: "• Opção 1: mais completa; • Opção 2: focada no tempo; • Opção 3: curta e direta.",
+pratica: "Muito obrigado! Responda: Thank you so much!" }
+]},
+
+saude: {
+titulo: "Saúde",
+itens: [
+{ pt: "Estou com dor de cabeça",
+opcoes: ["👉 I have a headache.",
+         "👉 My head hurts.",
+         "👉 I am having a bad headache."],
+dif: "• Opção 1: a mais correta e usada; • Opção 2: curta; • Opção 3: com intensidade.",
+pratica: "Desde quando? Responda: Since this morning." },
+{ pt: "Estou com dor de garganta e febre",
+opcoes: ["👉 I have a sore throat and fever.",
+         "👉 My throat hurts and I have a fever.",
+         "👉 I am feeling sick with fever and sore throat."],
+dif: "• Opção 1: padrão médico; • Opção 2: mais simples; • Opção 3: mais completa.",
+pratica: "Preciso de repouso. Responda: I need rest." }
+]},
+
+corpo: {
+titulo: "Partes do Corpo Humano",
+itens: [
+{ pt: "Cabeça → head", palavra: true },
+{ pt: "Olho → eye", palavra: true },
+{ pt: "Nariz → nose", palavra: true },
+{ pt: "Boca → mouth", palavra: true },
+{ pt: "Ouvido → ear", palavra: true },
+{ pt: "Cabelo → hair", palavra: true },
+{ pt: "Pescoço → neck", palavra: true },
+{ pt: "Braço → arm", palavra: true },
+{ pt: "Mão → hand", palavra: true },
+{ pt: "Dedo → finger", palavra: true },
+{ pt: "Peito → chest", palavra: true },
+{ pt: "Barriga → stomach", palavra: true },
+{ pt: "Perna → leg", palavra: true },
+{ pt: "Pé → foot", palavra: true },
+{ pt: "Coração → heart", palavra: true }
+]},
+
+numeros: {
+titulo: "Números de 1 a 100",
+itens: [
+{ pt: "1 → one", num: 1 },
+{ pt: "2 → two", num: 2 },
+{ pt: "3 → three", num: 3 },
+{ pt: "4 → four", num: 4 },
+{ pt: "5 → five", num: 5 },
+{ pt: "10 → ten", num: 10 },
+{ pt: "11 → eleven", num: 11 },
+{ pt: "20 → twenty", num: 20 },
+{ pt: "21 → twenty-one", num: 21 },
+{ pt: "30 → thirty", num: 30 },
+{ pt: "40 → forty", num: 40 },
+{ pt: "50 → fifty", num: 50 },
+{ pt: "100 → one hundred", num: 100 },
+{ pt: "💡 Dica: 22 = twenty-two | 35 = thirty-five | 78 = seventy-eight", dica: true }
+]},
+
+emprego: {
+titulo: "Entrevista de Emprego",
+itens: [
+{ pt: "Tenho experiência neste trabalho",
+opcoes: ["👉 I have experience in this work.",
+         "👉 I have experience in this field.",
+         "👉 I am experienced in this area."],
+dif: "• Opção 1: direta; • Opção 2: mais profissional; • Opção 3: mostra formação.",
+pratica: "Estou disponível! Responda: I am available to start." },
+{ pt: "Aprendo rápido e trabalho bem",
+opcoes: ["👉 I learn fast and I work well.",
+         "👉 I am a fast learner and work hard.",
+         "👉 I learn quickly and do my best."],
+dif: "• Opção 1: simples; • Opção 2: muito valorizada; • Opção 3: educada e dedicada.",
+pratica: "Obrigado! Responda: Thank you for the opportunity!" }
+]},
+
+biblia: {
+titulo: "Bíblia e Estudo",
+itens: [
+{ pt: "Eu gosto de estudar a Bíblia",
+opcoes: ["👉 I like to study the Bible.",
+         "👉 I enjoy reading the Bible.",
+         "👉 I love to learn from the Bible."],
+dif: "• Opção 1: direto; • Opção 2: com alegria; • Opção 3: com propósito.",
+pratica: "E você lê? Responda: Do you read the Bible too?" },
+{ pt: "Deus é bom todo o tempo",
+opcoes: ["👉 God is good all the time.",
+         "👉 God is always good.",
+         "👉 The Lord is good every day."],
+dif: "• Opção 1: frase conhecida; • Opção 2: curta e firme; • Opção 3: com respeito.",
+pratica: "Aleluia! Responda: Praise the Lord!" }
+]},
+
+conversa: {
+titulo: "Conversa Casual",
+itens: [
+{ pt: "Como você está hoje?",
+opcoes: ["👉 How are you today?",
+         "👉 How are you doing today?",
+         "👉 Are you well today?"],
+dif: "• Opção 1: padrão; • Opção 2: amigável; • Opção 3: delicada.",
+pratica: "Estou bem! Responda: I am very well, thank you!" },
+{ pt: "Muito prazer em conhecê-lo",
+opcoes: ["👉 Nice to meet you!",
+         "👉 Pleased to meet you!",
+         "👉 It is a pleasure to meet you."],
+dif: "• Opção 1: mais comum; • Opção 2: mais formal; • Opção 3: completa.",
+pratica: "Igualmente! Responda: Nice to meet you too!" }
+]},
+
+exercicios: {
+titulo: "✏️ Exercícios de Prática",
+itens: [
+{ exercicio: true,
+pergunta: "Como se diz 'Bom dia' em inglês?",
+resposta: "✅ Good morning!",
+dica: "Manhã = morning" },
+{ exercicio: true,
+pergunta: "Como se diz 'Obrigado' de forma educada?",
+resposta: "✅ Thank you very much!",
+dica: "Muito = very much" },
+{ exercicio: true,
+pergunta: "Como se diz 'Até logo' em inglês?",
+resposta: "✅ See you later! / Goodbye!",
+dica: "Ver = see | Depois = later" },
+{ exercicio: true,
+pergunta: "Qual é o número 50 em inglês?",
+resposta: "✅ Fifty!",
+dica: "Lembra: 40=forty | 50=fifty | 60=sixty" },
+{ exercicio: true,
+pergunta: "Como se diz 'Coração' em inglês?",
+resposta: "✅ Heart!",
+dica: "Soa como 'hárte'" }
+]}
+};
+
+let temaAtual = "compras";
+
+function escolherTema(tema) {
+    temaAtual = tema;
+    document.getElementById("tema-atual").textContent = "Tema: " + banco[tema].titulo;
+    document.querySelectorAll(".menu button").forEach(b => b.classList.remove("ativo"));
+    event.target.classList.add("ativo");
+    carregarConteudo();
+    document.getElementById("resultado").innerHTML = "Clique em algo acima...";
+}
+
+function carregarConteudo() {
+    const lista = document.getElementById("lista-conteudo");
+    lista.innerHTML = "";
+    banco[temaAtual].itens.forEach((item, indice) => {
+        if (item.dica) {
+            const div = document.createElement("div");
+            div.style.padding = "10px";
+            div.style.background = "#e8f4fd";
+            div.style.borderRadius = "5px";
+            div.style.margin = "5px 0";
+            div.textContent = item.pt;
+            lista.appendChild(div);
+        } else if (item.palavra || item.num) {
+            const div = document.createElement("div");
+            div.className = "frase-pt";
+            div.textContent = "📌 " + item.pt;
+            div.style.cursor = "pointer";
+            div.onclick = () => {
+                const parteIngles = item.pt.split("→")[1]?.trim() || "";
+                document.getElementById("resultado").innerHTML = `
+                <div class="opcao" onclick="falar('${parteIngles}')">🔊 ${parteIngles}</div>
+                <div class="explicacao">💡 Clique na palavra em inglês para ouvir a pronúncia!</div>`;
+            };
+            lista.appendChild(div);
+        } else if (item.exercicio) {
+            const div = document.createElement("div");
+            div.className = "frase-pt";
+            div.textContent = "✏️ " + item.pergunta;
+            div.style.cursor = "pointer";
+            div.onclick = () => mostrarExercicio(indice);
+            lista.appendChild(div);
+        } else {
+            const div = document.createElement("div");
+            div.className = "frase-pt";
+            div.textContent = "📌 " + item.pt;
+            div.style.cursor = "pointer";
+            div.onclick = () => mostrarResposta(indice);
+            lista.appendChild(div);
+        }
+    });
+}
+
+function mostrarResposta(indice) {
+    const item = banco[temaAtual].itens[indice];
+    let html = "";
+    item.opcoes.forEach(f => {
+        html += `<div class="opcao" onclick="falar('${f.replace(/'/g,"\\'").replace(/"/g,'\\"').slice(3)}')">${f}</div>`;
+    });
+    html += `<div class="explicacao">📌 Diferença:<br>${item.dif}</div>`;
+    html += `<div class="pergunta">🔁 Pratique: ${item.pratica}</div>`;
+    html += `<div class="dica">💡 Clique na frase em inglês para ouvir!</div>`;
+    document.getElementById("resultado").innerHTML = html;
+}
+
+function mostrarExercicio(indice) {
+    const item = banco[temaAtual].itens[indice];
+    document.getElementById("resultado").innerHTML = `
+    <div class="exercicio">
+        <strong>❓ Pergunta:</strong> ${item.pergunta}<br>
+        <em>💡 Dica: ${item.dica}</em><br>
+        <button class="botao-mostrar" onclick="this.nextElementSibling.style.display='block'; this.style.display='none'">👁️ Mostrar resposta</button>
+        <div class="resposta-exercicio">${item.resposta}</div>
+    </div>`;
+}
+
+function falar(texto) {
+    const voz = new SpeechSynthesisUtterance(texto);
+    voz.lang = "en-US";
+    voz.rate = 0.9;
+    speechSynthesis.speak(voz);
+}
+
+carregarConteudo();
+</script>
+
+</body>
+</html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Snake</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script src="render.js"></script><!-- defines canvas, ctx, draw() -->
+  <script src="input.js"></script><!-- attaches keyboard + touch listeners -->
+  <script src="game.js"></script> <!-- state, loop, boot -->
+
+</body>
+</html>
