@@ -1,4 +1,4 @@
-<!DOCTYPE html<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -14,19 +14,16 @@
         button:hover { background: #2980b9; }
         button.ativo { background: #27ae60; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
         
-        .caixa { background: white; padding: 14px; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.06); }
+        .caixa { background: white; padding: 14px; border-radius: 8px; margin-bottom: 10px; }
         .etiqueta { display: inline-block; background: #e3f2fd; color: #1565c0; padding: 4px 10px; border-radius: 12px; font-size: 14px; margin-bottom: 8px; }
-        .frase-pt { font-size: 15px; font-weight: bold; margin: 8px 0; color: #2c3e50; padding: 8px; background: #f8f9fa; border-radius: 5px; cursor: pointer; }
+        .frase-pt { font-size: 15px; font-weight: bold; margin: 8px 0; color: #2c3e50; padding: 10px; background: #f8f9fa; border-radius: 5px; cursor: pointer; }
         .frase-pt:hover { background: #e9ecef; }
         .opcao { padding: 10px; margin: 6px 0; background: #eaf2f8; border-radius: 5px; cursor: pointer; font-size: 15px; }
-        .opcao:hover { background: #d4e6f1; }
         .explicacao { margin-top: 10px; padding: 10px; background: #fef9e7; border-radius: 5px; line-height: 1.6; font-size: 14px; }
         .pergunta { margin-top: 10px; padding: 10px; background: #e8f8f5; border-radius: 5px; font-weight: bold; color: #27ae60; font-size: 14px; }
-        .dica { margin-top: 6px; color: #7f8c8d; font-size: 13px; }
-        .exercicio { margin-top: 10px; padding: 12px; background: #fff2e6; border-radius: 6px; border-left: 4px solid #ff9800; }
-        .resposta-exercicio { margin-top: 10px; padding: 10px; background: #e8f5e9; border-radius: 4px; display: none; font-weight: bold; color: #2e7d32; }
-        .botao-mostrar { background: #ff9800; margin-top: 10px; font-size: 15px; padding: 8px 15px; border-radius: 5px; border: none; color: white; cursor: pointer; }
-        .botao-mostrar:hover { background: #fb8c00; }
+        .exercicio-caixa { margin-top: 12px; padding: 12px; background: #fff8e1; border-radius: 6px; border-left: 4px solid #ff9800; }
+        .resposta-correta { margin-top: 8px; padding: 10px; background: #e8f5e9; border-radius: 5px; font-weight: bold; color: #2e7d32; font-size: 15px; }
+        .dica-texto { margin-top: 6px; color: #e65100; font-size: 14px; font-style: italic; }
     </style>
 </head>
 <body>
@@ -70,315 +67,141 @@
 <script>
 const banco = {
 
-religiao: {
-titulo: "Religião e Fé",
-itens: [
+religiao: { titulo: "Religião e Fé", itens: [
 { pt: "Eu creio em Deus Pai Todo-Poderoso",
-opcoes: ["👉 I believe in God, the Father Almighty.",
-         "👉 I believe in Almighty God the Father.",
-         "👉 I trust in God, the Father Almighty."],
-dif: "• Opção 1: forma padrão e universal; • Opção 2: destaca o poder de Deus; • Opção 3: expressa confiança pessoal.",
+opcoes: ["👉 I believe in God, the Father Almighty.", "👉 I believe in Almighty God the Father.", "👉 I trust in God, the Father Almighty."],
+dif: "• Opção 1: forma padrão; • Opção 2: destaca o poder de Deus; • Opção 3: expressa confiança pessoal.",
 pratica: "Deus é amor. Responda: God is love." },
 { pt: "A Bíblia é a Palavra de Deus",
-opcoes: ["👉 The Bible is the Word of God.",
-         "👉 The Holy Bible is God's Word.",
-         "👉 The Bible contains God's Word."],
-dif: "• Opção 1: direta e clara; • Opção 2: mais respeitosa e completa; • Opção 3: diz que contém a Palavra.",
+opcoes: ["👉 The Bible is the Word of God.", "👉 The Holy Bible is God's Word.", "👉 The Bible contains God's Word."],
+dif: "• Opção 1: direta e clara; • Opção 2: mais respeitosa; • Opção 3: diz que contém a Palavra.",
 pratica: "Eu amo a Palavra. Responda: I love the Word." }
 ]},
 
-escola: {
-titulo: "Na Escola",
-itens: [
+escola: { titulo: "Na Escola", itens: [
 { pt: "Eu estou aprendendo inglês",
-opcoes: ["👉 I am learning English.",
-         "👉 I study English.",
-         "👉 I am studying English."],
-dif: "• Opção 1: estou aprendendo agora; • Opção 2: é minha matéria; • Opção 3: estou estudando no momento.",
+opcoes: ["👉 I am learning English.", "👉 I study English.", "👉 I am studying English."],
+dif: "• Opção 1: estou aprendendo agora; • Opção 2: é minha matéria; • Opção 3: estou estudando agora.",
 pratica: "A aula começa às 8h. Responda: The class starts at 8 o'clock." },
 { pt: "Não entendi, pode repetir?",
-opcoes: ["👉 I did not understand. Can you repeat?",
-         "👉 I do not understand. Please repeat that.",
-         "👉 Could you say that again, please?"],
-dif: "• Opção 1: direta e educada; • Opção 2: mais completa; • Opção 3: muito educada e cortês.",
+opcoes: ["👉 I did not understand. Can you repeat?", "👉 I do not understand. Please repeat that.", "👉 Could you say that again, please?"],
+dif: "• Opção 1: direta e educada; • Opção 2: mais completa; • Opção 3: muito cortês.",
 pratica: "Obrigado! Responda: Thank you very much!" }
 ]},
 
-cabeleireiro: {
-titulo: "No Cabeleireiro",
-itens: [
+cabeleireiro: { titulo: "No Cabeleireiro", itens: [
 { pt: "Quero cortar o cabelo, por favor",
-opcoes: ["👉 I want a haircut, please.",
-         "👉 I would like to have my hair cut, please.",
-         "👉 Can I get a haircut, please?"],
-dif: "• Opção 1: curta e comum; • Opção 2: mais educada e completa; • Opção 3: forma de pedido cortês.",
-pratica: "Um pouco mais curto. Responda: A little shorter, please." },
-{ pt: "Gostaria de lavar e cortar",
-opcoes: ["👉 I would like a wash and cut.",
-         "👉 I want to wash and cut my hair.",
-         "👉 Please wash and cut my hair."],
-dif: "• Opção 1: forma padrão usada em salões; • Opção 2: frase completa; • Opção 3: pedido direto.",
-pratica: "Ficou ótimo! Responda: It looks wonderful! Thank you!" }
+opcoes: ["👉 I want a haircut, please.", "👉 I would like to have my hair cut, please.", "👉 Can I get a haircut, please?"],
+dif: "• Opção 1: curta e comum; • Opção 2: mais educada; • Opção 3: pedido cortês.",
+pratica: "Um pouco mais curto. Responda: A little shorter, please." }
 ]},
 
-igreja: {
-titulo: "Na Igreja",
-itens: [
+igreja: { titulo: "Na Igreja", itens: [
 { pt: "Deus abençoe a sua vida",
-opcoes: ["👉 God bless your life.",
-         "👉 May God bless your life.",
-         "👉 God bless you always."],
-dif: "• Opção 1: direta e simples; • Opção 2: com respeito e desejo; • Opção 3: Deus te abençoe sempre.",
-pratica: "Amém! Responda: Amen!" },
-{ pt: "Obrigado pela mensagem",
-opcoes: ["👉 Thank you for the message.",
-         "👉 Thank you for the word of God.",
-         "👉 I thank you for this teaching."],
-dif: "• Opção 1: simples e educada; • Opção 2: agradece a Palavra; • Opção 3: agradece o ensinamento.",
-pratica: "Que Deus te abençoe! Responda: God bless you!" }
+opcoes: ["👉 God bless your life.", "👉 May God bless your life.", "👉 God bless you always."],
+dif: "• Opção 1: direta; • Opção 2: com respeito; • Opção 3: sempre.",
+pratica: "Amém! Responda: Amen!" }
 ]},
 
-piquenique: {
-titulo: "No Piquenique",
-itens: [
+piquenique: { titulo: "No Piquenique", itens: [
 { pt: "Traga pão, queijo e suco",
-opcoes: ["👉 Bring bread, cheese and juice.",
-         "👉 Please bring some bread, cheese and juice.",
-         "👉 I brought bread, cheese and juice."],
-dif: "• Opção 1: pedido direto; • Opção 2: educada; • Opção 3: eu trouxe (informando).",
-pratica: "Está delicioso! Responda: This is delicious!" },
-{ pt: "Que dia lindo para um piquenique!",
-opcoes: ["👉 What a beautiful day for a picnic!",
-         "👉 It is a lovely day for a picnic!",
-         "👉 This is the perfect day for a picnic!"],
-dif: "• Opção 1: exclamação natural; • Opção 2: suave e agradável; • Opção 3: dia perfeito.",
-pratica: "Vamos sentar ali! Responda: Let us sit over there!" }
+opcoes: ["👉 Bring bread, cheese and juice.", "👉 Please bring some bread, cheese and juice.", "👉 I brought bread, cheese and juice."],
+dif: "• Opção 1: pedido direto; • Opção 2: educada; • Opção 3: eu trouxe.",
+pratica: "Está delicioso! Responda: This is delicious!" }
 ]},
 
-emprego: {
-titulo: "Entrevista de Emprego",
-itens: [
+emprego: { titulo: "Entrevista de Emprego", itens: [
 { pt: "Tenho experiência e aprendo rápido",
-opcoes: ["👉 I have experience and I learn fast.",
-         "👉 I am experienced and a fast learner.",
-         "👉 I have experience and learn quickly."],
-dif: "• Opção 1: simples e sincera; • Opção 2: profissional e valorizada; • Opção 3: completa e educada.",
-pratica: "Estou pronto para começar. Responda: I am ready to start." },
-{ pt: "Obrigado pela oportunidade",
-opcoes: ["👉 Thank you for the opportunity.",
-         "👉 I thank you for this opportunity.",
-         "👉 Thank you for giving me this chance."],
-dif: "• Opção 1: padrão e profissional; • Opção 2: mais formal; • Opção 3: mais pessoal e sincera.",
-pratica: "Aguardo o retorno. Responda: I look forward to your answer." }
+opcoes: ["👉 I have experience and I learn fast.", "👉 I am experienced and a fast learner.", "👉 I have experience and learn quickly."],
+dif: "• Opção 1: simples; • Opção 2: profissional; • Opção 3: completa.",
+pratica: "Estou pronto para começar. Responda: I am ready to start." }
 ]},
 
-carro: {
-titulo: "Comprar Carro",
-itens: [
+carro: { titulo: "Comprar Carro", itens: [
 { pt: "Quero ver esse carro, por favor",
-opcoes: ["👉 I want to see this car, please.",
-         "👉 I would like to look at this car, please.",
-         "👉 Can I see this car, please?"],
-dif: "• Opção 1: direta; • Opção 2: educada; • Opção 3: pergunta cortês.",
-pratica: "Quanto custa? Responda: How much does it cost?" },
-{ pt: "Esse carro é econômico?",
-opcoes: ["👉 Is this car fuel efficient?",
-         "👉 Does this car save fuel?",
-         "👉 Is this car economical?"],
-dif: "• Opção 1: termo padrão (econômico em combustível); • Opção 2: pergunta se economiza combustível; • Opção 3: forma geral.",
-pratica: "Posso fazer um test drive? Responda: May I test drive it?" }
+opcoes: ["👉 I want to see this car, please.", "👉 I would like to look at this car, please.", "👉 Can I see this car, please?"],
+dif: "• Opção 1: direta; • Opção 2: educada; • Opção 3: cortês.",
+pratica: "Quanto custa? Responda: How much does it cost?" }
 ]},
 
-prova: {
-titulo: "Fazer Prova",
-itens: [
+prova: { titulo: "Fazer Prova", itens: [
 { pt: "Estudei bastante para essa prova",
-opcoes: ["👉 I studied hard for this test.",
-         "👉 I studied a lot for this exam.",
-         "👉 I prepared well for this test."],
-dif: "• Opção 1: estudei com esforço; • Opção 2: estudei muito; • Opção 3: me preparei bem.",
-pratica: "Espero ir bem. Responda: I hope I do well." },
-{ pt: "Não entendi essa pergunta",
-opcoes: ["👉 I do not understand this question.",
-         "👉 I did not understand this question.",
-         "👉 Can you explain this question to me?"],
-dif: "• Opção 1: no momento (agora); • Opção 2: não entendi ao ler; • Opção 3: pede explicação.",
-pratica: "Preciso de mais tempo. Responda: I need more time." }
+opcoes: ["👉 I studied hard for this test.", "👉 I studied a lot for this exam.", "👉 I prepared well for this test."],
+dif: "• Opção 1: com esforço; • Opção 2: estudei muito; • Opção 3: me preparei bem.",
+pratica: "Espero ir bem. Responda: I hope I do well." }
 ]},
 
-dentista: {
-titulo: "No Dentista",
-itens: [
+dentista: { titulo: "No Dentista", itens: [
 { pt: "Estou com dor de dente",
-opcoes: ["👉 I have a toothache.",
-         "👉 My tooth hurts.",
-         "👉 I have pain in my tooth."],
-dif: "• Opção 1: a forma MAIS usada e correta; • Opção 2: curta e direta; • Opção 3: completa e clara.",
-pratica: "Dói aqui. Responda: It hurts right here." },
-{ pt: "Preciso de um exame de rotina",
-opcoes: ["👉 I need a routine check-up.",
-         "👉 I want a regular dental check-up.",
-         "👉 Please examine my teeth."],
-dif: "• Opção 1: padrão internacional; • Opção 2: específico dentário; • Opção 3: examine me por favor.",
-pratica: "Obrigado, doutor! Responda: Thank you, doctor!" }
+opcoes: ["👉 I have a toothache.", "👉 My tooth hurts.", "👉 I have pain in my tooth."],
+dif: "• Opção 1: a MAIS usada; • Opção 2: curta; • Opção 3: completa.",
+pratica: "Dói aqui. Responda: It hurts right here." }
 ]},
 
-semana: {
-titulo: "Fim de Semana",
-itens: [
+semana: { titulo: "Fim de Semana", itens: [
 { pt: "O que você fará no fim de semana?",
-opcoes: ["👉 What will you do on the weekend?",
-         "👉 What are you doing this weekend?",
-         "👉 What are your plans for the weekend?"],
-dif: "• Opção 1: pergunta padrão sobre o futuro; • Opção 2: o que vai fazer neste; • Opção 3: pergunta sobre planos.",
-pratica: "Vou descansar. Responda: I will rest." },
-{ pt: "Bom fim de semana!",
-opcoes: ["👉 Have a great weekend!",
-         "👉 Have a nice weekend!",
-         "👉 Happy weekend to you!"],
-dif: "• Opção 1: ótimo fim de semana! (mais calorosa); • Opção 2: bom fim de semana! (mais comum); • Opção 3: feliz fim de semana!",
-pratica: "Igualmente! Responda: You too!" }
+opcoes: ["👉 What will you do on the weekend?", "👉 What are you doing this weekend?", "👉 What are your plans for the weekend?"],
+dif: "• Opção 1: pergunta padrão; • Opção 2: neste fim de semana; • Opção 3: sobre planos.",
+pratica: "Vou descansar. Responda: I will rest." }
 ]},
 
-feriado: {
-titulo: "Feriado",
-itens: [
+feriado: { titulo: "Feriado", itens: [
 { pt: "Amanhã é feriado",
-opcoes: ["👉 Tomorrow is a holiday.",
-         "👉 Tomorrow is a public holiday.",
-         "👉 It is a holiday tomorrow."],
-dif: "• Opção 1: simples e direta; • Opção 2: feriado oficial/nacional; • Opção 3: ordem de palavras diferente.",
-pratica: "Vamos descansar! Responda: Let us rest!" },
-{ pt: "Tenho um feriado na próxima semana",
-opcoes: ["👉 I have a holiday next week.",
-         "👉 There is a holiday next week.",
-         "👉 Next week I have a holiday."],
-dif: "• Opção 1: eu tenho; • Opção 2: existe; • Opção 3: ordem diferente.",
-pratica: "Aproveite o feriado! Responda: Enjoy the holiday!" }
+opcoes: ["👉 Tomorrow is a holiday.", "👉 Tomorrow is a public holiday.", "👉 It is a holiday tomorrow."],
+dif: "• Opção 1: simples; • Opção 2: feriado oficial; • Opção 3: ordem diferente.",
+pratica: "Vamos descansar! Responda: Let us rest!" }
 ]},
 
-manha: {
-titulo: "Ao Levantar-se",
-itens: [
+manha: { titulo: "Ao Levantar-se", itens: [
 { pt: "Bom dia! Que Deus me ajude hoje!",
-opcoes: ["👉 Good morning! May God help me today!",
-         "👉 Good morning! God help me today!",
-         "👉 Good morning! I trust God today!"],
-dif: "• Opção 1: desejo respeitoso; • Opção 2: pedido direto; • Opção 3: expressa confiança.",
-pratica: "Obrigado por este dia. Responda: Thank you for this day." },
-{ pt: "Hoje será um dia abençoado",
-opcoes: ["👉 Today will be a blessed day.",
-         "👉 This will be a blessed day.",
-         "👉 Today is a blessed day."],
-dif: "• Opção 1: será (futuro); • Opção 2: este dia será; • Opção 3: é (declaração de fé).",
-pratica: "Vou fazer o meu melhor. Responda: I will do my best." }
+opcoes: ["👉 Good morning! May God help me today!", "👉 Good morning! God help me today!", "👉 Good morning! I trust God today!"],
+dif: "• Opção 1: respeitoso; • Opção 2: direto; • Opção 3: confiança.",
+pratica: "Obrigado por este dia. Responda: Thank you for this day." }
 ]},
 
-dormir: {
-titulo: "Ao Dormir",
-itens: [
+dormir: { titulo: "Ao Dormir", itens: [
 { pt: "Boa noite! Descanse bem!",
-opcoes: ["👉 Good night! Rest well!",
-         "👉 Good evening! Sleep well!",
-         "👉 Good night! Have a good rest!"],
-dif: "• Opção 1: boa noite, descanse bem; • Opção 2: boa noite, durma bem; • Opção 3: boa noite, descanse bem.",
-pratica: "Até amanhã! Responda: See you tomorrow!" },
-{ pt: "Obrigado, Senhor, por mais um dia",
-opcoes: ["👉 Thank you, Lord, for another day.",
-         "👉 Lord, I thank You for this day.",
-         "👉 Thank You God for this day."],
-dif: "• Opção 1: direta e grata; • Opção 2: mais respeitosa; • Opção 3: simples e sincera.",
-pratica: "Amém. Responda: Amen." }
+opcoes: ["👉 Good night! Rest well!", "👉 Good evening! Sleep well!", "👉 Good night! Have a good rest!"],
+dif: "• Opção 1: descanse bem; • Opção 2: durma bem; • Opção 3: bom descanso.",
+pratica: "Até amanhã! Responda: See you tomorrow!" }
 ]},
 
-cinema: {
-titulo: "Ir ao Cinema",
-itens: [
+cinema: { titulo: "Ir ao Cinema", itens: [
 { pt: "Gostaria de ir ao cinema hoje",
-opcoes: ["👉 I would like to go to the cinema today.",
-         "👉 I want to go to the movies today.",
-         "👉 Let us go to the cinema today."],
-dif: "• Opção 1: educada; • Opção 2: mais comum nos EUA; • Opção 3: vamos (convite).",
-pratica: "Que filme vão passar? Responda: What movie is playing?" },
-{ pt: "Os ingressos estão caros",
-opcoes: ["👉 The tickets are expensive.",
-         "👉 The tickets cost too much.",
-         "👉 Tickets are a bit pricey."],
-dif: "• Opção 1: direta; • Opção 2: custam demais; • Opção 3: um pouco caro (mais suave).",
-pratica: "Vamos outro dia. Responda: Let us go another day." }
+opcoes: ["👉 I would like to go to the cinema today.", "👉 I want to go to the movies today.", "👉 Let us go to the cinema today."],
+dif: "• Opção 1: educada; • Opção 2: mais comum EUA; • Opção 3: convite.",
+pratica: "Que filme passa? Responda: What movie is playing?" }
 ]},
 
-aniversario: {
-titulo: "Festa de Aniversário",
-itens: [
+aniversario: { titulo: "Festa de Aniversário", itens: [
 { pt: "Feliz Aniversário! Muitos anos de vida!",
-opcoes: ["👉 Happy Birthday! Many happy returns!",
-         "👉 Happy Birthday! Wishing you long life!",
-         "👉 Happy Birthday! All the best!"],
-dif: "• Opção 1: frase clássica; • Opção 2: desejando longa vida; • Opção 3: tudo de bom!",
-pratica: "Parabéns! Responda: Congratulations!" },
-{ pt: "Obrigado por ter vindo!",
-opcoes: ["👉 Thank you for coming!",
-         "👉 Thank you for being here!",
-         "👉 Thanks for coming today!"],
-dif: "• Opção 1: mais comum; • Opção 2: obrigado por estar aqui; • Opção 3: obrigado por ter vindo hoje.",
-pratica: "Aqui está o meu presente. Responda: Here is my gift for you." }
+opcoes: ["👉 Happy Birthday! Many happy returns!", "👉 Happy Birthday! Wishing you long life!", "👉 Happy Birthday! All the best!"],
+dif: "• Opção 1: clássica; • Opção 2: longa vida; • Opção 3: tudo de bom!",
+pratica: "Parabéns! Responda: Congratulations!" }
 ]},
 
-academia: {
-titulo: "Ir à Academia",
-itens: [
+academia: { titulo: "Ir à Academia", itens: [
 { pt: "Vou à academia todos os dias",
-opcoes: ["👉 I go to the gym every day.",
-         "👉 I work out at the gym daily.",
-         "👉 I exercise at the gym every day."],
-dif: "• Opção 1: vou (deslocamento); • Opção 2: treino; • Opção 3: faço exercícios.",
-pratica: "Vou melhorar minha saúde. Responda: I will improve my health." },
-{ pt: "Me sinto mais forte e saudável",
-opcoes: ["👉 I feel stronger and healthier.",
-         "👉 I feel much stronger and healthier.",
-         "👉 I am getting stronger and healthier."],
-dif: "• Opção 1: sinto-me; • Opção 2: me sinto muito mais; • Opção 3: estou ficando.",
-pratica: "Muito bem! Responda: Very good!" }
+opcoes: ["👉 I go to the gym every day.", "👉 I work out at the gym daily.", "👉 I exercise at the gym every day."],
+dif: "• Opção 1: vou; • Opção 2: treino; • Opção 3: faço exercícios.",
+pratica: "Vou melhorar minha saúde. Responda: I will improve my health." }
 ]},
 
-ler: {
-titulo: "Ler e Estudar",
-itens: [
+ler: { titulo: "Ler e Estudar", itens: [
 { pt: "Eu gosto de ler livros",
-opcoes: ["👉 I like to read books.",
-         "👉 I enjoy reading books.",
-         "👉 I love reading books."],
-dif: "• Opção 1: simples; • Opção 2: gosto com satisfação; • Opção 3: amo ler.",
-pratica: "Estou lendo um bom livro. Responda: I am reading a good book." },
-{ pt: "Ler nos ajuda a crescer",
-opcoes: ["👉 Reading helps us grow.",
-         "👉 Reading helps us learn and grow.",
-         "👉 By reading we grow in knowledge."],
-dif: "• Opção 1: curta e direta; • Opção 2: aprender e crescer; • Opção 3: crescer em conhecimento.",
+opcoes: ["👉 I like to read books.", "👉 I enjoy reading books.", "👉 I love reading books."],
+dif: "• Opção 1: simples; • Opção 2: com alegria; • Opção 3: amo ler.",
 pratica: "A Bíblia é o melhor Livro. Responda: The Bible is the best Book." }
 ]},
 
-cozinhar: {
-titulo: "Cozinhar",
-itens: [
+cozinhar: { titulo: "Cozinhar", itens: [
 { pt: "Eu gosto de cozinhar",
-opcoes: ["👉 I like to cook.",
-         "👉 I enjoy cooking.",
-         "👉 I love cooking."],
-dif: "• Opção 1: simples; • Opção 2: gosto com alegria; • Opção 3: adoro cozinhar.",
-pratica: "Vou preparar o almoço. Responda: I will prepare lunch." },
-{ pt: "Essa comida está muito boa!",
-opcoes: ["👉 This food is very good!",
-         "👉 This meal is delicious!",
-         "👉 This tastes wonderful!"],
-dif: "• Opção 1: direta; • Opção 2: está deliciosa! (mais forte); • Opção 3: tem um sabor maravilhoso!",
-pratica: "Parabéns! Responda: Congratulations! Well done!" }
+opcoes: ["👉 I like to cook.", "👉 I enjoy cooking.", "👉 I love cooking."],
+dif: "• Opção 1: simples; • Opção 2: com alegria; • Opção 3: adoro.",
+pratica: "Essa comida está ótima! Responda: This food is great!" }
 ]},
 
-profissoes: {
-titulo: "Profissões",
-itens: [
+profissoes: { titulo: "Profissões", itens: [
 { pt: "Médico → Doctor", palavra: true },
 { pt: "Professora → Teacher", palavra: true },
 { pt: "Engenheiro → Engineer", palavra: true },
@@ -393,41 +216,15 @@ itens: [
 { pt: "Trabalhador → Worker", palavra: true }
 ]},
 
-exercicios: {
-titulo: "✏️ Exercícios de Prática",
-itens: [
-{ exercicio: true, id: 1,
-pergunta: "Como se diz 'Bom dia' em inglês?",
-resposta: "✅ Good morning!",
-dica: "Manhã = morning" },
-{ exercicio: true, id: 2,
-pergunta: "Como se diz 'Obrigado' de forma educada?",
-resposta: "✅ Thank you very much!",
-dica: "Muito = very much" },
-{ exercicio: true, id: 3,
-pergunta: "Como se diz 'Até logo' em inglês?",
-resposta: "✅ See you later! / Goodbye!",
-dica: "Ver = see | Depois = later" },
-{ exercicio: true, id: 4,
-pergunta: "Qual é o número 50 em inglês?",
-resposta: "✅ Fifty!",
-dica: "Lembra: 40=forty | 50=fifty | 60=sixty" },
-{ exercicio: true, id: 5,
-pergunta: "Como se diz 'Coração' em inglês?",
-resposta: "✅ Heart!",
-dica: "Soa como 'hárte'" },
-{ exercicio: true, id: 6,
-pergunta: "Como se diz 'Feliz Aniversário'?",
-resposta: "✅ Happy Birthday!",
-dica: "Feliz = Happy | Aniversário = Birthday" },
-{ exercicio: true, id: 7,
-pergunta: "Como se diz 'Deus é bom' em inglês?",
-resposta: "✅ God is good!",
-dica: "Deus = God | Bom = Good" },
-{ exercicio: true, id: 8,
-pergunta: "Como se diz 'Boa noite' ao se despedir?",
-resposta: "✅ Good night!",
-dica: "Noite = night" }
+exercicios: { titulo: "✏️ Exercícios de Prática", itens: [
+{ exercicio: true, pergunta: "Como se diz 'Bom dia' em inglês?", dica: "Manhã = morning", resposta: "✅ Good morning!" },
+{ exercicio: true, pergunta: "Como se diz 'Obrigado' de forma educada?", dica: "Muito = very much", resposta: "✅ Thank you very much!" },
+{ exercicio: true, pergunta: "Como se diz 'Até logo' em inglês?", dica: "Ver = see | Depois = later", resposta: "✅ See you later! / Goodbye!" },
+{ exercicio: true, pergunta: "Qual é o número 50 em inglês?", dica: "40=forty | 50=fifty | 60=sixty", resposta: "✅ Fifty!" },
+{ exercicio: true, pergunta: "Como se diz 'Coração' em inglês?", dica: "Soa como 'hárte'", resposta: "✅ Heart!" },
+{ exercicio: true, pergunta: "Como se diz 'Feliz Aniversário'?", dica: "Feliz = Happy | Aniversário = Birthday", resposta: "✅ Happy Birthday!" },
+{ exercicio: true, pergunta: "Como se diz 'Deus é bom' em inglês?", dica: "Deus = God | Bom = Good", resposta: "✅ God is good!" },
+{ exercicio: true, pergunta: "Como se diz 'Boa noite' ao se despedir?", dica: "Noite = night", resposta: "✅ Good night!" }
 ]}
 };
 
@@ -446,15 +243,7 @@ function carregarConteudo() {
     const lista = document.getElementById("lista-conteudo");
     lista.innerHTML = "";
     banco[temaAtual].itens.forEach((item, indice) => {
-        if (item.dica) {
-            const div = document.createElement("div");
-            div.style.padding = "10px";
-            div.style.background = "#e8f4fd";
-            div.style.borderRadius = "5px";
-            div.style.margin = "5px 0";
-            div.textContent = item.pt;
-            lista.appendChild(div);
-        } else if (item.palavra) {
+        if (item.palavra) {
             const div = document.createElement("div");
             div.className = "frase-pt";
             div.textContent = "📌 " + item.pt;
@@ -462,14 +251,21 @@ function carregarConteudo() {
                 const parteIngles = item.pt.split("→")[1]?.trim() || "";
                 document.getElementById("resultado").innerHTML = `
                 <div class="opcao" onclick="falar('${parteIngles.replace(/'/g,"\\'").replace(/"/g,'\\"')}')">🔊 ${parteIngles}</div>
-                <div class="explicacao">💡 Clique na palavra em inglês para ouvir a pronúncia!</div>`;
+                <div class="explicacao">💡 Clique na palavra para ouvir!</div>`;
             };
             lista.appendChild(div);
         } else if (item.exercicio) {
             const div = document.createElement("div");
             div.className = "frase-pt";
             div.textContent = "✏️ " + item.pergunta;
-            div.onclick = () => mostrarExercicio(item);
+            div.onclick = () => {
+                document.getElementById("resultado").innerHTML = `
+                <div class="exercicio-caixa">
+                    <strong>❓ Pergunta:</strong> ${item.pergunta}<br><br>
+                    💡 Dica: <span class="dica-texto">${item.dica}</span><br><br>
+                    <div class="resposta-correta">✅ Resposta: ${item.resposta}</div>
+                </div>`;
+            };
             lista.appendChild(div);
         } else {
             const div = document.createElement("div");
@@ -488,20 +284,9 @@ function mostrarResposta(indice) {
         const textoIngles = f.slice(3);
         html += `<div class="opcao" onclick="falar('${textoIngles.replace(/'/g,"\\'").replace(/"/g,'\\"')}')">${f}</div>`;
     });
-    html += `<div class="explicacao">📌 Diferença entre elas:<br>${item.dif}</div>`;
-    html += `<div class="pergunta">🔁 Para praticar: ${item.pratica}</div>`;
-    html += `<div class="dica">💡 Clique na frase em inglês para ouvir a pronúncia!</div>`;
+    html += `<div class="explicacao">📌 Diferença:<br>${item.dif}</div>`;
+    html += `<div class="pergunta">🔁 Pratique: ${item.pratica}</div>`;
     document.getElementById("resultado").innerHTML = html;
-}
-
-function mostrarExercicio(item) {
-    document.getElementById("resultado").innerHTML = `
-    <div class="exercicio">
-        <strong>❓ Pergunta:</strong> ${item.pergunta}<br><br>
-        💡 <em>Dica: ${item.dica}</em><br><br>
-        <button class="botao-mostrar" onclick="document.getElementById('resp${item.id}').style.display='block'; this.style.display='none'">👁️ Mostrar resposta</button>
-        <div id="resp${item.id}" class="resposta-exercicio">${item.resposta}</div>
-    </div>`;
 }
 
 function falar(texto) {
@@ -516,7 +301,6 @@ escolherTema('religiao');
 
 </body>
 </html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8">
